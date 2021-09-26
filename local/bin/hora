@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+#
+# Copyright (C) 2021 Kevin Velez
+#
+# Script para ajustar la hora automaticamente a colombia.
+
+timedatectl set-timezone America/Bogota
+
+ntpd -qg

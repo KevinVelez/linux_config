@@ -1,0 +1,61 @@
+#!/usr/bin/bash
+#
+# Copyright (C) 2021 Kevin Velez
+#
+# Script para crear un archivo tex en la ruta actual con una plantilla preestablecida y abrirlo con neovim.
+
+
+# Captura de errores, verificar que se digitaron los dos argumentos obligatorios.
+
+# Primer argumento, la plantilla a utilizar.
+
+if [ $# -lt 1 ]
+then
+	echo "Error. No se ha especificado una plantilla."
+	exit
+fi
+
+# Segundo argumento, El nombre del archivo.
+
+if [ $# -lt 2 ]
+then
+	echo "Error. No se ha especificado un nombre."
+	exit
+fi
+
+# Verificar que exista la plantilla digitada.
+
+if [ "$1" != "IEEE" ] && [ "$1" != "Article" ]
+then
+  echo "Error. La plantilla ""$1"" especificada no existe."
+  exit
+fi
+
+# Guarda los agurmentos en variables
+
+plantilla="$1"
+nombre="$2"
+
+
+# Ruta de la CARPETA en la que se encuentra la plantilla
+
+rutaPlantilla=$HOME/Documentos/Latex/Plantillas/"$plantilla"/
+
+# Crear el directorio de trabajo y moverse a él.
+
+mkdir "$nombre"
+cd "$nombre"
+
+# Ruta de la carpeta en la que se guardaran todos los archivos del documento
+
+rutaFinal="$PWD"/
+
+# Copiar la plantilla y el preambulo.
+
+cp "$rutaPlantilla""$plantilla".tex "$rutaFinal""$nombre".tex
+cp "$rutaPlantilla"preambulo.tex "$rutaFinal"preambulo.tex
+
+# Copiar la carpeta Figuras
+cp -r "$rutaPlantilla"Figuras "$rutaFinal"Figuras
+
+nvim "$nombre".tex
